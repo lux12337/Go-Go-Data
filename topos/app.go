@@ -11,7 +11,6 @@ import (
 type Entry struct {
 	Bin            string `json:"bin"`
 	Cnstrct_yr     string `json:"cnstrct_yr"`
-	Name           string `json:"name"`
 	Lstmoddate     string `json:"lstmoddate"`
 	Lststatype     string `json:"lststatype"`
 	Doitt_id       string `json:"doitt_id"`
@@ -77,6 +76,7 @@ func main() {
     fmt.Println("cnstrct_yr   :", ed.Cnstrct_yr)
     fmt.Println("lstmoddate   :", ed.Lstmoddate)
     fmt.Println("lststatype   :", ed.Lststatype)
+    fmt.Println("name   :", ed.Name)
 		fmt.Println("\n")
 	}
 }
