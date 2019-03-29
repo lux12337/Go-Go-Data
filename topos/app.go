@@ -25,39 +25,29 @@ type Entry struct {
   Geomsource     string `json:"geomsource"`
 }
 
-// the feed is the full JSON data structure
-// this sets up the array of Entry types (defined above)
-type Feed struct {
-  Buildings []struct {
-		Data Entry
-	}
-}
-
 func main() {
+  // API endpoint
   url := fmt.Sprintf("https://data.cityofnewyork.us/resource/k8ez-gyqp.json")
 
-	// Build the request
+	// build the request
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		log.Fatal("NewRequest: ", err)
 		return
 	}
 
+  // using APP token for SODA
   req.Header.Set("X-App-Token", "sb6EoW4dhAxuEtIGPifEbV9Rl")
   client := &http.Client{}
 
-  // Send the request via a client
-	// Do sends an HTTP request and
-	// returns an HTTP response
+  // send the request via a client
 	resp, err := client.Do(req)
 	if err != nil {
 		log.Fatal("Do: ", err)
 		return
 	}
 
-  // Callers should close resp.Body
-	// when done reading from it
-	// Defer the closing of the body
+  // defer response close
 	defer resp.Body.Close()
 
   // confirm we received an OK status
@@ -71,9 +61,10 @@ func main() {
 		log.Fatalln("Error reading body:", err)
 	}
 
-  // create an empty instance of Feed struct
-	// this is what gets filled in when unmarshaling JSON
+  // create an empty instance of Entry struct
 	var entries []Entry
+
+  // unmarshal the JSON data into entries
   err = json.Unmarshal(body, &entries)
   if err != nil {
       log.Fatal(err)
