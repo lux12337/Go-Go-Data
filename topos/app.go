@@ -70,5 +70,13 @@ func main() {
       log.Fatal(err)
   }
 
-  fmt.Printf("%v\n", entries)
+  // loop through the entries
+	for _, ed := range entries {
+		fmt.Println(">>>")
+		fmt.Println("bin   :", ed.Bin)
+    fmt.Println("cnstrct_yr   :", ed.Cnstrct_yr)
+    fmt.Println("lstmoddate   :", ed.Lstmoddate)
+    fmt.Println("lststatype   :", ed.Lststatype)
+		fmt.Println("\n")
+	}
 }
