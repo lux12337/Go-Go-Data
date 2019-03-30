@@ -1,17 +1,20 @@
 package main
 
 import (
+  "database/sql"
 	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
   "io/ioutil"
+
+  _ "github.com/lib/pq"
 )
 
+// struct to hold data from API
 type Entry struct {
 	Bin            string `json:"bin"`
 	Cnstrct_yr     string `json:"cnstrct_yr"`
-	Name           string `json:"name"`
 	Lstmoddate     string `json:"lstmoddate"`
 	Lststatype     string `json:"lststatype"`
 	Doitt_id       string `json:"doitt_id"`
@@ -25,7 +28,17 @@ type Entry struct {
   Geomsource     string `json:"geomsource"`
 }
 
+// credentials needed to connect to local postgres database
+const (
+  host     = "localhost"
+  port     = 5432
+  user     = "postgres"
+  password = "password"
+  dbname   = "topos"
+)
+
 func main() {
+  //******************* Get data from API *******************//
   // API endpoint
   url := fmt.Sprintf("https://data.cityofnewyork.us/resource/k8ez-gyqp.json")
 
@@ -70,5 +83,39 @@ func main() {
       log.Fatal(err)
   }
 
-  fmt.Printf("%v\n", entries)
+  fmt.Println("Fetched data from API successfully")
+
+  //******************* Store data in postgres database *******************//
+  // create a connection string with all the credentials
+  psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+    "password=%s dbname=%s sslmode=disable",
+    host, port, user, password, dbname)
+
+  // validate arguements provided with the local postgres database
+  db, err := sql.Open("postgres", psqlInfo)
+  if err != nil {
+    panic(err)
+  }
+  defer db.Close()
+
+  sqlStatement := `
+    INSERT INTO ny_data (bin, cnstrct_yr, lstmoddate, lststatype, doitt_id, heightroof, feat_code,
+                          groundelev, shape_area, shape_len, base_bbl, mpluto_bbl, geomsource)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+    RETURNING id`
+
+  id := 0
+
+  // loop through the entries
+	for _, ed := range entries {
+    err = db.QueryRow(sqlStatement, ed.Bin, ed.Cnstrct_yr, ed.Lstmoddate, ed.Lststatype, ed.Doitt_id, ed.Heightroof,
+      ed.Feat_code, ed.Groundelev, ed.Shape_area, ed.Shape_len, ed.Base_bbl, ed.Mpluto_bbl, ed.Geomsource).Scan(&id)
+    if err != nil {
+      panic(err)
+    }
+
+    fmt.Println("New record ID is:", id)
+	}
+
+  fmt.Println("Pushed all the data to postgres database successfully")
 }
