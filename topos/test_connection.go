@@ -7,6 +7,7 @@ import (
   _ "github.com/lib/pq"
 )
 
+// postgres database 
 const (
   host     = "localhost"
   port     = 5432
@@ -35,7 +36,7 @@ func main() {
     RETURNING id`
 
   id := 0
-  err = db.QueryRow(sqlStatement, 11231, 222222, "Jonathan", "Calhoun", 333333, 444444, 555555, 66666, 777777, 888888, "luigi", "waluigi", "mario").Scan(&id)
+  err = db.QueryRow(sqlStatement, 11231, 222222, "Jonathan", "Calhoun", 333533, 444444, 555555, 66666, 777777, 888888, "luigi", "waluigi", "mario").Scan(&id)
   if err != nil {
     panic(err)
   }
