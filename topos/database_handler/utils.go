@@ -30,6 +30,17 @@ func GetEntry(id uint) (*Entry) {
 	return entry
 }
 
+func GetAll() ([]*Entry) {
+	entries := make([]*Entry, 0)
+	err := GetDB().Table("ny_data").Find(&entries).Error
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+
+	return entries
+}
+
 func GetEntries(year uint) ([]*Entry) {
 	entries := make([]*Entry, 0)
 	err := GetDB().Table("ny_data").Where("cnstrct_yr = ?", year).Find(&entries).Error

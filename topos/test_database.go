@@ -6,9 +6,7 @@ import (
 )
 
 func main() {
-  var id uint = 1910
-  data := database_handler.GetEntries(id)
-
+  data := database_handler.GetAll()
 
   for _, ed := range data {
     fmt.Println(ed)
