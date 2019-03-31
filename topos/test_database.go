@@ -6,7 +6,11 @@ import (
 )
 
 func main() {
-  var id uint = 10
-  data := database_handler.GetEntry(id)
-  fmt.Println(data)
+  var id uint = 1910
+  data := database_handler.GetEntries(id)
+
+
+  for _, ed := range data {
+    fmt.Println(ed)
+	}
 }
