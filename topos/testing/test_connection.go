@@ -3,20 +3,20 @@ package main
 import (
   "database/sql"
   "fmt"
+  "os"
+  "github.com/joho/godotenv"
 
   _ "github.com/lib/pq"
 )
 
-// postgres database 
-const (
-  host     = "localhost"
-  port     = 5432
-  user     = "postgres"
-  password = "password"
-  dbname   = "topos"
-)
-
 func main() {
+  // fetch credentials from .env file
+	user     := os.Getenv("user")
+	password := os.Getenv("password")
+	dbname   := os.Getenv("dbname")
+	host     := os.Getenv("host")
+  port     := os.Getenv("port")
+  
   // create a connection string with all the info
   psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
     "password=%s dbname=%s sslmode=disable",

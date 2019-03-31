@@ -5,8 +5,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+  "os"
 	"net/http"
   "io/ioutil"
+  "github.com/joho/godotenv"
 
   _ "github.com/lib/pq"
 )
@@ -27,15 +29,6 @@ type Entry struct {
   Mpluto_bbl     string `json:"mpluto_bbl"`
   Geomsource     string `json:"geomsource"`
 }
-
-// credentials needed to connect to local postgres database
-const (
-  host     = "localhost"
-  port     = 5432
-  user     = "postgres"
-  password = "password"
-  dbname   = "topos"
-)
 
 func main() {
   //******************* Get data from API *******************//
@@ -87,7 +80,19 @@ func main() {
 
   //******************* Store data in postgres database *******************//
   // create a connection string with all the credentials
-  psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+  e := godotenv.Load()
+	if e != nil {
+		fmt.Print(e)
+	}
+
+  // fetch credentials from .env file
+	user     := os.Getenv("user")
+	password := os.Getenv("password")
+	dbname   := os.Getenv("dbname")
+	host     := os.Getenv("host")
+  port     := os.Getenv("port")
+
+  psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+
     "password=%s dbname=%s sslmode=disable",
     host, port, user, password, dbname)
 
