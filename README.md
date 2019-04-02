@@ -4,11 +4,11 @@
 
 1. Install docker from : https://docs.docker.com/docker-for-mac/install/
 
-2. Install Postgres in a docker container by running in terminal: `docker run -d --name postgresdb -e POSTGRES_PASSWORD=<your-password> -p 5432:5432 postgres:11`
+2. Install Postgres in a docker container by running in terminal: `docker run -d --name postgresdb -e POSTGRES_PASSWORD=your-password -p 5432:5432 postgres:11`
   - The name of the docker container is `postgresdb`
   - The database will be listening on the port 5432
   - The postgres version is 11
-  - **Note:** Put a password of your choice instead of '<your-password>'
+  - **Note:** Put a password of your choice instead of 'your-password'
 
 3. Open bash inside of the container: `docker exec -it postgresdb /bin/bash`
 
