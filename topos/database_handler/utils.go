@@ -21,6 +21,7 @@ type Entry struct {
   Geomsource     string `json:"geomsource"`
 }
 
+// struct to hold avg
 type Average struct {
 	AvgHeight      string `json:"avg_height"`
 }

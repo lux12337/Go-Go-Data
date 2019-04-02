@@ -9,7 +9,6 @@ import (
 
 var GetAll = func(w http.ResponseWriter, r *http.Request) {
 
-	//id := r.Context().Value("user") . (uint)
 	data := database_handler.GetAll()
 	resp := u.Message(true, "success")
 	resp["data"] = data
