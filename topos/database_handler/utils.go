@@ -41,9 +41,9 @@ func GetAll() ([]*Entry) {
 	return entries
 }
 
-func GetEntries(year uint) ([]*Entry) {
+func GetAfterYear(year []string) ([]*Entry) {
 	entries := make([]*Entry, 0)
-	err := GetDB().Table("ny_data").Where("cnstrct_yr = ?", year).Find(&entries).Error
+	err := GetDB().Table("ny_data").Where("cnstrct_yr > ?", year).Find(&entries).Error
 	if err != nil {
 		fmt.Println(err)
 		return nil
