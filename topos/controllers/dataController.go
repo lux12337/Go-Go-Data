@@ -29,3 +29,17 @@ var GetAfterYear = func(w http.ResponseWriter, r *http.Request) {
 	resp["data"] = data
 	u.Respond(w, resp)
 }
+
+var GetAvgHeightAfterYear = func(w http.ResponseWriter, r *http.Request) {
+
+	year, ok := r.URL.Query()["year"]
+  if !ok || len(year[0]) < 1 {
+        log.Println("Url Param 'year' is missing")
+        return
+      }
+
+	data := database_handler.GetAvgHeightAfterYear(year)
+	resp := u.Message(true, "success")
+	resp["averages"] = data
+	u.Respond(w, resp)
+}

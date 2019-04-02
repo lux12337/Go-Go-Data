@@ -12,7 +12,8 @@ func main() {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/api/all", controllers.GetAll).Methods("GET")
-  router.HandleFunc("/api/", controllers.GetAfterYear).Methods("GET") //  year/2/contacts
+  router.HandleFunc("/api/year/", controllers.GetAfterYear).Methods("GET")
+  router.HandleFunc("/api/avg/", controllers.GetAvgHeightAfterYear).Methods("GET")
 
 	err := http.ListenAndServe(":8000", router) //Launch the app, visit localhost:8000/api
 	if err != nil {

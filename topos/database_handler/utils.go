@@ -21,6 +21,10 @@ type Entry struct {
   Geomsource     string `json:"geomsource"`
 }
 
+type Average struct {
+	AvgHeight      string `json:"avg_height"`
+}
+
 func GetEntry(id uint) (*Entry) {
 	entry := &Entry{}
 	err := GetDB().Table("ny_data").Where("id = ?", id).First(entry).Error
@@ -50,4 +54,16 @@ func GetAfterYear(year []string) ([]*Entry) {
 	}
 
 	return entries
+}
+
+func GetAvgHeightAfterYear(year []string) (*Average) {
+	avg := &Average{}
+
+	err := GetDB().Table("ny_data").Where("cnstrct_yr > ?", year).Select("AVG(heightroof) AS avg_height") .Find(&avg).Error
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+
+	return avg
 }
