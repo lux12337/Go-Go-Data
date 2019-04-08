@@ -33,7 +33,7 @@ type Entry struct {
 func main() {
   //******************* Get data from API *******************//
   // API endpoint
-  url := fmt.Sprintf("https://data.cityofnewyork.us/resource/hdxe-i756.json")
+  url := fmt.Sprintf("https://data.cityofnewyork.us/resource/gf4s-29mq.json")
 
 	// build the request
 	req, err := http.NewRequest("GET", url, nil)
